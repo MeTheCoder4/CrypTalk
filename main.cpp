@@ -1,13 +1,12 @@
 #include <iostream>
 #include <string>
-#include "VernamCoder.h"
 #include "Server.h"
 #include "Client.h"
 
 using namespace std;
 
 int main() {
-    string key;
+    string key, message;
     unsigned short portNumber = 0;
 
     cout << "************" << endl;
@@ -18,17 +17,18 @@ int main() {
 
     int option = 0;
     cin >> option;
-    cout << option << endl;
     do {
         switch(option) {
             case 1:
                 {
-                    cout << "Enter port number" << endl;
+                    cout << "Enter port number:" << endl;
                     cin >> portNumber;
                     cout << "Enter ip address: " << endl;
                     string ipAddress;
                     cin >> ipAddress;
-                    Client client(ipAddress, portNumber);
+                    cout << "Enter the key: " << endl;
+                    cin >> key;
+                    Client client(ipAddress, portNumber, key);
 
                     if(!client.joinServer()) {
                         cout << "Error while connecting!" << endl;
@@ -36,13 +36,21 @@ int main() {
                     }
 
                     cout << "Connected!" << endl;
+
+                    while(message != "end_connection()") {
+                        cout << "Write message: ";
+                        getline(cin, message);
+                        client.sendMessage(message);
+                    }
                 }
                 break;
             case 2:
                 {
                     cout << "Enter port number:" << endl;
                     cin >> portNumber;
-                    Server server(portNumber);
+                    cout << "Enter the key: " << endl;
+                    cin >> key;
+                    Server server(portNumber, key);
                     cout << "Waiting for connections..." << endl;
 
                     if(!server.waitToConnect()) {
@@ -51,6 +59,11 @@ int main() {
                     }
 
                     cout << "Connected!" << endl;
+
+                    while(message != "end_connection()") {
+                        message = server.receiveMessage();
+                        cout << "Message received: " << message << endl;
+                    }
                 }
                 break;
             default:

@@ -19,15 +19,25 @@
 
 #endif
 
+#ifndef VERNAM_H
+#define VERNAM_H
+
+#include "VernamCoder.h"
+
+#endif
+
 class Server {
 public:
-    explicit Server(unsigned short);
+    explicit Server(unsigned short, const std::string&);
     bool waitToConnect();
+    bool sendMessage(const std::string&);
+    std::string receiveMessage();
 
 private:
     unsigned short m_portNumber;
     sf::TcpSocket m_tcpClient;
     sf::TcpListener m_tcpListener;
+    const std::string m_key;
 
 };
 
