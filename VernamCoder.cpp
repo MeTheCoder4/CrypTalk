@@ -3,10 +3,12 @@
 //
 
 #include "VernamCoder.h"
+#include <cassert>
 
 using namespace std;
 
 std::string VernamCoder::apply(const std::string &message, const std::string &key) {
+    assert(key.length() > 0);
     string resultMessage;
 
     auto it = key.begin();
