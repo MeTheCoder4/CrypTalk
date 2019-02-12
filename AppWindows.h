@@ -40,7 +40,9 @@ protected:
 
 private:
     void onNewConversationClick();
+    void onJoinConversationClick();
     std::unique_ptr<ConversationWindow> m_convWindowPtr;
+    Gtk::Entry* e_ipAddress, *e_portNumber, *e_key;
 
 };
 
@@ -53,6 +55,9 @@ protected:
 
 private:
     Glib::ustring m_windowTitle;
+    Gtk::ScrolledWindow* m_chatWindow, *m_inputWindow;
+    Gtk::TextView* m_chatTextView, *m_inputTextView;
+    Glib::RefPtr<Gtk::TextBuffer> m_refChatBuffer, m_refInputBuffer;
 
 };
 
